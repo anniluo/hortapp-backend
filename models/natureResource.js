@@ -1,7 +1,13 @@
-const mongoose = require("mongoose");
+import { Schema, model } from "mongoose";
 
-const natureResourceSchema = new mongoose.Schema({});
+const natureResourceSchema = new Schema({
+  // mongoose creates an _id property by default
+  name: { fi: String, en: String, sw: String },
+  category: { type: String, enum: ["Berries", "Mushrooms", "Greens"] },
+  //iconUrl: String,
+  harvestSeason: { start: String, end: String }
+});
 
-const NatureResource = mongoose.model("NatureResource", natureResourceSchema);
+const NatureResource = model("NatureResource", natureResourceSchema);
 
-module.exports = NatureResource;
+export default NatureResource;

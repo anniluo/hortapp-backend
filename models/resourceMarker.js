@@ -1,15 +1,16 @@
-const mongoose = require("mongoose");
+import { Schema, model } from "mongoose";
+import NatureResource from "./natureResource";
 
-const resourceMarkerSchema = new mongoose.Schema({
-  id: String,
-  latLng: { latitude: String, longitude: String },
+const resourceMarkerSchema = new Schema({
+  // mongoose creates an _id property by default
+  latLng: { type: { latitude: String, longitude: String }, required: true },
   locationName: String,
-  date: Date,
-  //addedByUser: User,
-  comment: String //optional,
-  //natureResource: NatureResource,
+  date: { type: Date, default: Date.now },
+  addedByUser: String, //reference to user
+  comment: { type: String, required: false }, //optional
+  natureResource: [NatureResource]
 });
 
-const ResourceMarker = mongoose.model("ResourceMarker", resourceMarkerSchema);
+const ResourceMarker = model("ResourceMarker", resourceMarkerSchema);
 
-module.exports = ResourceMarker;
+export default ResourceMarker;
