@@ -12,4 +12,4 @@ const resourceMarkerSchema = new mongoose.Schema({
 
 const ResourceMarker = mongoose.model("ResourceMarker", resourceMarkerSchema);
 
-export default ResourceMarker;
+module.exports = ResourceMarker;
