@@ -1,11 +1,11 @@
-import { Schema, model } from "mongoose";
+const mongoose = require("mongoose");
 
-const natureResourceSchema = new Schema({
+const natureResourceSchema = new mongoose.Schema({
   // mongoose creates an _id property by default
-  name: { fi: String, en: String, sw: String },
+  name: { type: { fi: String, en: String } },
   category: { type: String, enum: ["Berries", "Mushrooms", "Greens"] },
   iconUrl: { type: String, default: "" },
-  harvestSeason: { start: String, end: String }
+  harvestSeason: { type: { start: String, end: String } }
 });
 
 natureResourceSchema.set("toJSON", {
@@ -16,6 +16,6 @@ natureResourceSchema.set("toJSON", {
   }
 });
 
-const NatureResource = model("NatureResource", natureResourceSchema);
+const NatureResource = mongoose.model("NatureResource", natureResourceSchema);
 
-export default NatureResource;
+module.exports = { NatureResource, natureResourceSchema };

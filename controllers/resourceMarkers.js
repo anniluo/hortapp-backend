@@ -27,8 +27,15 @@ resourceMarkerRouter.get("/:id", (request, response, next) => {
 resourceMarkerRouter.post("/", (request, response, next) => {
   const body = request.body;
 
+  // reference to users added when that is implemented
   const resourceMarker = new ResourceMarker({
-    //parametrit
+    latLng: {
+      latitude: body.latLng.latitude,
+      longitude: body.latLng.longitude
+    },
+    locationName: body.locationName,
+    comment: body.comment,
+    natureResource: body.natureResource //for testing: '5e7639f65c3f9a1a2cb43448'
   });
 
   resourceMarker
@@ -44,7 +51,13 @@ resourceMarkerRouter.put("/:id", (request, response, next) => {
   const body = request.body;
 
   const resourceMarker = {
-    //parameters
+    latLng: {
+      latitude: body.latLng.latitude,
+      longitude: body.latLng.longitude
+    },
+    locationName: body.locationName,
+    comment: body.comment,
+    natureResource: body.natureResource //for testing: '5e7639f65c3f9a1a2cb43448'
   };
 
   ResourceMarker.findByIdAndUpdate(request.params.id, resourceMarker, {

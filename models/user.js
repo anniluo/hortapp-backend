@@ -1,13 +1,14 @@
-import { Schema, model } from "mongoose";
-import ResourceMarker from "./resourceMarker";
+const mongoose = require("mongoose");
 
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
   // mongoose creates an _id property by default
   email: { type: String, required: true, unique: true },
   username: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+  passwordHashed: String,
   date: { type: Date, default: Date.now },
-  addedResourceMarkers: [ResourceMarker]
+  resourceMarkers: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "ResourceMarker", default: [] }
+  ]
 });
 
 userSchema.set("toJSON", {
@@ -15,9 +16,10 @@ userSchema.set("toJSON", {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
     delete returnedObject.__v;
+    delete returnedObject.passwordHashed;
   }
 });
 
-const User = model("User", userSchema);
+const User = mongoose.model("User", userSchema);
 
-export default User;
+module.exports = User;

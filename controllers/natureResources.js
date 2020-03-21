@@ -1,5 +1,5 @@
 const natureResourceRouter = require("express").Router();
-const NatureResource = require("../models/natureResource");
+const NatureResource = require("../models/natureResource").NatureResource;
 
 // HTTP GET ALL RESOURCES
 natureResourceRouter.get("/", (request, response) => {
@@ -28,7 +28,12 @@ natureResourceRouter.post("/", (request, response, next) => {
   const body = request.body;
 
   const natureResource = new NatureResource({
-    //parametrit
+    name: { fi: body.name.fi, en: body.name.en },
+    category: body.category,
+    harvestSeason: {
+      start: body.harvestSeason.start,
+      end: body.harvestSeason.end
+    }
   });
 
   natureResource
@@ -44,7 +49,12 @@ natureResourceRouter.put("/:id", (request, response, next) => {
   const body = request.body;
 
   const natureResource = {
-    //parameters
+    name: { fi: body.name.fi, en: body.name.en },
+    category: body.category,
+    harvestSeason: {
+      start: body.harvestSeason.start,
+      end: body.harvestSeason.end
+    }
   };
 
   NatureResource.findByIdAndUpdate(request.params.id, natureResource, {

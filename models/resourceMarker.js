@@ -1,14 +1,19 @@
-import { Schema, model } from "mongoose";
-import NatureResource from "./natureResource";
+const mongoose = require("mongoose");
+const NatureResourceSchema = require("./natureResource").natureResourceSchema;
 
-const resourceMarkerSchema = new Schema({
+const resourceMarkerSchema = new mongoose.Schema({
   // mongoose creates an _id property by default
   latLng: { type: { latitude: String, longitude: String }, required: true },
   locationName: String,
   date: { type: Date, default: Date.now },
-  addedByUser: String, //reference to user
-  comment: { type: String, required: false }, //optional
-  natureResource: [NatureResource]
+  //addedByUser: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  comment: { type: String, required: false },
+  natureResource: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "NatureResource"
+    }
+  ]
 });
 
 resourceMarkerSchema.set("toJSON", {
@@ -19,6 +24,6 @@ resourceMarkerSchema.set("toJSON", {
   }
 });
 
-const ResourceMarker = model("ResourceMarker", resourceMarkerSchema);
+const ResourceMarker = mongoose.model("ResourceMarker", resourceMarkerSchema);
 
-export default ResourceMarker;
+module.exports = ResourceMarker;

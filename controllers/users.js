@@ -25,8 +25,11 @@ userRouter.get("/:id", (request, response, next) => {
 userRouter.post("/", (request, response, next) => {
   const body = request.body;
 
+  //password -> hash password -> save passwordHashed to database
   const user = new User({
-    //parametrit
+    email: body.email,
+    username: body.username,
+    passwordHashed: body.passwordHashed
   });
 
   user
@@ -42,7 +45,9 @@ userRouter.put("/:id", (request, response, next) => {
   const body = request.body;
 
   const user = {
-    //parameters
+    email: body.email,
+    username: body.username,
+    passwordHashed: body.passwordHashed
   };
 
   User.findByIdAndUpdate(request.params.id, user, { new: true })

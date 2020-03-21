@@ -7,10 +7,11 @@ const usersRouter = require("./controllers/users");
 const natureResourcesRouter = require("./controllers/natureResources");
 const resourceMarkersRouter = require("./controllers/resourceMarkers");
 
-const middleware = require("./utils/middleware");
 const mongoose = require("mongoose");
 
 console.log("connecting to,", config.MONGODB_URI);
+
+mongoose.set("useFindAndModify", false);
 
 mongoose
   .connect(config.MONGODB_URI, {
