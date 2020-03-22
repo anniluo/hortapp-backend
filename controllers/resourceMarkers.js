@@ -5,9 +5,9 @@ const User = require("../models/user");
 // HTTP GET ALL MARKERS
 resourceMarkerRouter.get("/", async (request, response, next) => {
   try {
-    const resourceMarkers = await ResourceMarker.find({}).populate(
-      "natureResource"
-    );
+    const resourceMarkers = await ResourceMarker.find({})
+      .populate("natureResource")
+      .populate("addedByUser", { username: 1 });
     response.json(
       resourceMarkers.map(resourceMarker => resourceMarker.toJSON())
     );
