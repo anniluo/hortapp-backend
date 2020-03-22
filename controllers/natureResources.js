@@ -2,77 +2,91 @@ const natureResourceRouter = require("express").Router();
 const NatureResource = require("../models/natureResource").NatureResource;
 
 // HTTP GET ALL RESOURCES
-natureResourceRouter.get("/", (request, response) => {
-  NatureResource.find({}).then(natureResources => {
+natureResourceRouter.get("/", async (request, response, next) => {
+  try {
+    const natureResources = await NatureResource.find({});
     response.json(
       natureResources.map(natureResource => natureResource.toJSON())
     );
-  });
+  } catch (error) {
+    next(error);
+  }
 });
 
 // HTTP GET RESOURCE WITH ID
-natureResourceRouter.get("/:id", (request, response, next) => {
-  NatureResource.findById(request.params.id)
-    .then(natureResource => {
-      if (natureResource) {
-        response.json(natureResource.toJSON());
-      } else {
-        response.status(404).end();
-      }
-    })
-    .catch(error => next(error));
+natureResourceRouter.get("/:id", async (request, response, next) => {
+  try {
+    const natureResource = await NatureResource.findById(request.params.id);
+    natureResource
+      ? response.json(natureResource.toJSON())
+      : response.status(404).end();
+  } catch (error) {
+    next(error);
+  }
 });
 
 // HTTP POST NEW RESOURCE
-natureResourceRouter.post("/", (request, response, next) => {
+natureResourceRouter.post("/", async (request, response, next) => {
   const body = request.body;
 
   const natureResource = new NatureResource({
     name: { fi: body.name.fi, en: body.name.en },
     category: body.category,
+    iconUrl: body.iconUrl,
     harvestSeason: {
       start: body.harvestSeason.start,
       end: body.harvestSeason.end
     }
   });
 
-  natureResource
-    .save()
-    .then(savedNatureResource => {
-      response.json(savedNatureResource.toJSON());
-    })
-    .catch(error => next(error));
+  try {
+    const savedNatureResource = await natureResource.save();
+    savedNatureResource
+      ? response.json(savedNatureResource.toJSON())
+      : console.log("Failed creating a new resource");
+  } catch (error) {
+    next(error);
+  }
 });
 
 // HTTP UPDATE RESOURCE WITH ID
-natureResourceRouter.put("/:id", (request, response, next) => {
+natureResourceRouter.put("/:id", async (request, response, next) => {
   const body = request.body;
 
   const natureResource = {
     name: { fi: body.name.fi, en: body.name.en },
     category: body.category,
+    iconUrl: body.iconUrl,
     harvestSeason: {
       start: body.harvestSeason.start,
       end: body.harvestSeason.end
     }
   };
 
-  NatureResource.findByIdAndUpdate(request.params.id, natureResource, {
-    new: true
-  })
-    .then(updatedNatureResource => {
-      response.json(updatedNatureResource.toJSON());
-    })
-    .catch(error => next(error));
+  try {
+    const updatedNatureResource = await NatureResource.findByIdAndUpdate(
+      request.params.id,
+      natureResource,
+      {
+        new: true
+      }
+    );
+    updatedNatureResource
+      ? response.json(updatedNatureResource.toJSON())
+      : console.log("Failed updating a resource");
+  } catch (error) {
+    next(error);
+  }
 });
 
 // HTTP DELETE RESOURCE WITH ID
-natureResourceRouter.delete("/:id", (request, response, next) => {
-  NatureResource.findByIdAndDelete(request.params.id)
-    .then(() => {
-      response.status(204).end();
-    })
-    .catch(error => next(error));
+natureResourceRouter.delete("/:id", async (request, response, next) => {
+  try {
+    await NatureResource.findByIdAndDelete(request.params.id);
+    response.status(204).end();
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = natureResourceRouter;

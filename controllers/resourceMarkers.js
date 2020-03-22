@@ -1,53 +1,63 @@
 const resourceMarkerRouter = require("express").Router();
 const ResourceMarker = require("../models/resourceMarker");
+const User = require("../models/user");
 
 // HTTP GET ALL MARKERS
-resourceMarkerRouter.get("/", (request, response) => {
-  ResourceMarker.find({}).then(resourceMarkers => {
+resourceMarkerRouter.get("/", async (request, response, next) => {
+  try {
+    const resourceMarkers = await ResourceMarker.find({}).populate(
+      "natureResource"
+    );
     response.json(
       resourceMarkers.map(resourceMarker => resourceMarker.toJSON())
     );
-  });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 // HTTP GET MARKER WITH ID
-resourceMarkerRouter.get("/:id", (request, response, next) => {
-  ResourceMarker.findById(request.params.id)
-    .then(resourceMarker => {
-      if (resourceMarker) {
-        response.json(resourceMarker.toJSON());
-      } else {
-        response.status(404).end();
-      }
-    })
-    .catch(error => next(error));
+resourceMarkerRouter.get("/:id", async (request, response, next) => {
+  try {
+    const resourceMarker = await ResourceMarker.findById(request.params.id);
+    resourceMarker
+      ? response.json(resourceMarker.toJSON())
+      : response.status(404).end();
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 // HTTP POST NEW MARKER
-resourceMarkerRouter.post("/", (request, response, next) => {
+resourceMarkerRouter.post("/", async (request, response, next) => {
   const body = request.body;
 
-  // reference to users added when that is implemented
+  const user = await User.findById(body.userId);
+
   const resourceMarker = new ResourceMarker({
     latLng: {
       latitude: body.latLng.latitude,
       longitude: body.latLng.longitude
     },
     locationName: body.locationName,
+    addedByUser: user._id,
+    date: new Date(),
     comment: body.comment,
-    natureResource: body.natureResource //for testing: '5e7639f65c3f9a1a2cb43448'
+    natureResource: body.natureResource
   });
 
-  resourceMarker
-    .save()
-    .then(savedResourceMarker => {
-      response.json(savedResourceMarker.toJSON());
-    })
-    .catch(error => next(error));
+  try {
+    const savedResourceMarker = await resourceMarker.save();
+    user.resourceMarkers = user.resourceMarkers.concat(savedResourceMarker._id);
+    await user.save();
+    response.json(savedResourceMarker.toJSON());
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 // HTTP UPDATE MARKER WITH ID
-resourceMarkerRouter.put("/:id", (request, response, next) => {
+resourceMarkerRouter.put("/:id", async (request, response, next) => {
   const body = request.body;
 
   const resourceMarker = {
@@ -57,25 +67,34 @@ resourceMarkerRouter.put("/:id", (request, response, next) => {
     },
     locationName: body.locationName,
     comment: body.comment,
-    natureResource: body.natureResource //for testing: '5e7639f65c3f9a1a2cb43448'
+    natureResource: body.natureResource
   };
 
-  ResourceMarker.findByIdAndUpdate(request.params.id, resourceMarker, {
-    new: true
-  })
-    .then(updatedResourceMarker => {
-      response.json(updatedResourceMarker.toJSON());
-    })
-    .catch(error => next(error));
+  try {
+    const updatedResourceMarker = await ResourceMarker.findByIdAndUpdate(
+      request.params.id,
+      resourceMarker,
+      {
+        new: true
+      }
+    );
+
+    updatedResourceMarker
+      ? response.json(updatedResourceMarker.toJSON())
+      : console.log("failed to update resourceMarker");
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 // HTTP DELETE MARKER WITH ID
-resourceMarkerRouter.delete("/:id", (request, response, next) => {
-  ResourceMarker.findByIdAndDelete(request.params.id)
-    .then(() => {
-      response.status(204).end();
-    })
-    .catch(error => next(error));
+resourceMarkerRouter.delete("/:id", async (request, response, next) => {
+  try {
+    await ResourceMarker.findByIdAndDelete(request.params.id);
+    response.status(204).end();
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 module.exports = resourceMarkerRouter;

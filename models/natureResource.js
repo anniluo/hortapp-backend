@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
 
 const natureResourceSchema = new mongoose.Schema({
-  // mongoose creates an _id property by default
   name: { type: { fi: String, en: String } },
-  category: { type: String, enum: ["Berries", "Mushrooms", "Greens"] },
+  category: {
+    type: String,
+    enum: ["Berries", "Mushrooms", "Greens", "Fruits"]
+  },
   iconUrl: { type: String, default: "" },
   harvestSeason: { type: { start: String, end: String } }
 });
