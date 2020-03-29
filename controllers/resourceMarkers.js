@@ -13,6 +13,7 @@ resourceMarkerRouter.get("/", async (request, response, next) => {
     );
   } catch (error) {
     console.log(error);
+    response.status(404).end();
   }
 });
 
@@ -25,6 +26,7 @@ resourceMarkerRouter.get("/:id", async (request, response, next) => {
       : response.status(404).end();
   } catch (error) {
     console.log(error);
+    response.status(404).end();
   }
 });
 
