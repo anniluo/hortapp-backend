@@ -27,28 +27,6 @@ userRouter.get("/:id", async (request, response, next) => {
   }
 });
 
-// HTTP POST NEW USER
-userRouter.post("/", async (request, response, next) => {
-  const body = request.body;
-
-  const saltRounds = 10;
-  const passwordHashed = await bcrypt.hash(body.password, saltRounds);
-
-  const user = new User({
-    email: body.email,
-    username: body.username,
-    passwordHashed: passwordHashed,
-    date: new Date()
-  });
-
-  try {
-    const savedUser = await user.save();
-    response.json(savedUser);
-  } catch (error) {
-    next(error);
-  }
-});
-
 // HTTP UPDATE USER WITH ID
 userRouter.put("/:id", async (request, response, next) => {
   const body = request.body;
