@@ -2,10 +2,6 @@ const bcrypt = require("bcrypt");
 const signupRouter = require("express").Router();
 const User = require("../models/user");
 
-signupRouter.get("/", (request, response, next) => {
-  response.json({ message: "signup point" });
-});
-
 signupRouter.post("/", async (request, response, next) => {
   const body = request.body;
 

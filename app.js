@@ -4,21 +4,13 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 
-logger.info("libraries imported");
-
 const usersRouter = require("./controllers/users");
-
-logger.info("userRouter imported");
-
 const natureResourcesRouter = require("./controllers/natureResources");
 const resourceMarkersRouter = require("./controllers/resourceMarkers");
 const loginRouter = require("./controllers/login");
 const signupRouter = require("./controllers/signup");
 
 const middleware = require("./utils/middleware");
-
-logger.info("middlewares imported");
-
 const mongoose = require("mongoose");
 
 logger.info("connecting to,", config.MONGODB_URI);
