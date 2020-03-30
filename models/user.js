@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const uniqueValidator = require("mongoose-unique-validator");
 
 const userSchema = new mongoose.Schema({
   // mongoose creates an _id property by default
@@ -7,9 +8,11 @@ const userSchema = new mongoose.Schema({
   passwordHashed: String,
   date: { type: Date, default: Date.now },
   resourceMarkers: [
-    { type: mongoose.Schema.Types.ObjectId, ref: "ResourceMarker", default: [] }
+    { type: mongoose.Schema.Types.ObjectId, ref: "ResourceMarker" }
   ]
 });
+
+userSchema.plugin(uniqueValidator);
 
 userSchema.set("toJSON", {
   transform: (document, returnedObject) => {
