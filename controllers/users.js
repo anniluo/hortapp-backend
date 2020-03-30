@@ -1,4 +1,4 @@
-//const bcrypt = require("bcrypt");
+const bcrypt = require("bcrypt");
 const userRouter = require("express").Router();
 const User = require("../models/user");
 
@@ -21,7 +21,7 @@ userRouter.get("/", async (request, response, next) => {
 userRouter.get("/:id", async (request, response, next) => {
   try {
     const user = await User.findById(request.params.id);
-    user ? response.json(user.toJSON()) : response.status(404).end();
+    response.json(user.toJSON());
   } catch (error) {
     next(error);
   }
@@ -40,9 +40,7 @@ userRouter.put("/:id", async (request, response, next) => {
     const updatedUser = await User.findByIdAndUpdate(request.params.id, user, {
       new: true
     });
-    updatedUser
-      ? response.json(updatedUser.toJSON())
-      : console.log("Failed to update user");
+    response.json(updatedUser.toJSON());
   } catch (error) {
     next(error);
   }
