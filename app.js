@@ -1,14 +1,22 @@
+const logger = require("./utils/logger");
 const config = require("./utils/config");
 const express = require("express");
 const app = express();
 const cors = require("cors");
 
+logger.info("libraries imported");
+
 const usersRouter = require("./controllers/users");
+
+logger.info("userRouter imported");
+
 const natureResourcesRouter = require("./controllers/natureResources");
 const resourceMarkersRouter = require("./controllers/resourceMarkers");
 
 const middleware = require("./utils/middleware");
-const logger = require("./utils/logger");
+
+logger.info("middlewares imported");
+
 const mongoose = require("mongoose");
 
 logger.info("connecting to,", config.MONGODB_URI);

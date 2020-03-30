@@ -17,9 +17,7 @@ natureResourceRouter.get("/", async (request, response, next) => {
 natureResourceRouter.get("/:id", async (request, response, next) => {
   try {
     const natureResource = await NatureResource.findById(request.params.id);
-    natureResource
-      ? response.json(natureResource.toJSON())
-      : response.status(404).end();
+    response.json(natureResource.toJSON());
   } catch (error) {
     next(error);
   }
@@ -41,9 +39,7 @@ natureResourceRouter.post("/", async (request, response, next) => {
 
   try {
     const savedNatureResource = await natureResource.save();
-    savedNatureResource
-      ? response.json(savedNatureResource.toJSON())
-      : console.log("Failed creating a new resource");
+    response.json(savedNatureResource.toJSON());
   } catch (error) {
     next(error);
   }
@@ -71,9 +67,7 @@ natureResourceRouter.put("/:id", async (request, response, next) => {
         new: true
       }
     );
-    updatedNatureResource
-      ? response.json(updatedNatureResource.toJSON())
-      : console.log("Failed updating a resource");
+    response.json(updatedNatureResource.toJSON());
   } catch (error) {
     next(error);
   }

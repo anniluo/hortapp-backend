@@ -12,8 +12,7 @@ resourceMarkerRouter.get("/", async (request, response, next) => {
       resourceMarkers.map(resourceMarker => resourceMarker.toJSON())
     );
   } catch (error) {
-    console.log(error);
-    response.status(404).end();
+    next(error);
   }
 });
 
@@ -21,12 +20,9 @@ resourceMarkerRouter.get("/", async (request, response, next) => {
 resourceMarkerRouter.get("/:id", async (request, response, next) => {
   try {
     const resourceMarker = await ResourceMarker.findById(request.params.id);
-    resourceMarker
-      ? response.json(resourceMarker.toJSON())
-      : response.status(404).end();
+    response.json(resourceMarker.toJSON());
   } catch (error) {
-    console.log(error);
-    response.status(404).end();
+    next(error);
   }
 });
 
@@ -54,7 +50,7 @@ resourceMarkerRouter.post("/", async (request, response, next) => {
     await user.save();
     response.json(savedResourceMarker.toJSON());
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 });
 
@@ -81,11 +77,9 @@ resourceMarkerRouter.put("/:id", async (request, response, next) => {
       }
     );
 
-    updatedResourceMarker
-      ? response.json(updatedResourceMarker.toJSON())
-      : console.log("failed to update resourceMarker");
+    response.json(updatedResourceMarker.toJSON());
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 });
 
@@ -95,7 +89,7 @@ resourceMarkerRouter.delete("/:id", async (request, response, next) => {
     await ResourceMarker.findByIdAndDelete(request.params.id);
     response.status(204).end();
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 });
 

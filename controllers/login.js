@@ -1,4 +1,4 @@
-const jwt = require("jsonwebtoken");
+/* const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const userLoginRouter = require("express").Router();
 const User = require("../models/user");
@@ -22,3 +22,4 @@ userLoginRouter.post("/", async (request, response) => {
 });
 
 module.exports = userLoginRouter;
+ */
