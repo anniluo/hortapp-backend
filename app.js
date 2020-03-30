@@ -42,12 +42,9 @@ app.use(express.static("build"));
 app.use(express.json());
 app.use(middleware.requestLogger);
 
-<<<<<<< HEAD
 app.use("/login", loginRouter);
 app.use("/signup", signupRouter);
 app.use("/api/resourceMarkers", resourceMarkersRouter);
-=======
->>>>>>> middleware
 app.use("/api/users", usersRouter);
 app.use("/api/resourceMarkers", resourceMarkersRouter);
 app.use("/api/natureResources", natureResourcesRouter);

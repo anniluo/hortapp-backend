@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const jsonWebToken = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const loginRouter = require("express").Router();
@@ -9,14 +8,6 @@ loginRouter.get("/", (request, response, next) => {
 });
 
 loginRouter.post("/", async (request, response) => {
-=======
-/* const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
-const userLoginRouter = require("express").Router();
-const User = require("../models/user");
-
-userLoginRouter.post("/", async (request, response) => {
->>>>>>> middleware
   const body = request.body;
   const user = await User.findOne({ username: body.username });
   const correctPassword =
@@ -34,9 +25,4 @@ userLoginRouter.post("/", async (request, response) => {
   response.status(200).send({ token, username: user.username });
 });
 
-<<<<<<< HEAD
 module.exports = loginRouter;
-=======
-module.exports = userLoginRouter;
- */
->>>>>>> middleware
