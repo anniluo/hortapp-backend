@@ -6,6 +6,8 @@ const cors = require("cors");
 const usersRouter = require("./controllers/users");
 const natureResourcesRouter = require("./controllers/natureResources");
 const resourceMarkersRouter = require("./controllers/resourceMarkers");
+const loginRouter = require("./controllers/login");
+const signupRouter = require("./controllers/signup");
 
 const mongoose = require("mongoose");
 
@@ -29,6 +31,8 @@ app.use(cors());
 app.use(express.static("build"));
 app.use(express.json());
 
+app.use("/login", loginRouter);
+app.use("/signup", signupRouter);
 app.use("/api/resourceMarkers", resourceMarkersRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/natureResources", natureResourcesRouter);
