@@ -1,6 +1,16 @@
+const jsonWebToken = require("jsonwebtoken");
 const resourceMarkerRouter = require("express").Router();
 const ResourceMarker = require("../models/resourceMarker");
 const User = require("../models/user");
+
+const getTokenFrom = request => {
+  const authorization = request.get("authorization");
+  if (authorization && authorization.toLowerCase().startsWith("bearer")) {
+    return authorization.subString(7);
+  }
+
+  return null;
+};
 
 // HTTP GET ALL MARKERS
 resourceMarkerRouter.get("/", async (request, response, next) => {
@@ -29,6 +39,12 @@ resourceMarkerRouter.get("/:id", async (request, response, next) => {
 // HTTP POST NEW MARKER
 resourceMarkerRouter.post("/", async (request, response, next) => {
   const body = request.body;
+  const token = getTokenFrom(request);
+
+  const decodedToken = jsonWebToken.verify(token, process.env.SECRET);
+  if (!token || !decodedToken.id) {
+    return response.status(401).json({ error: "token missing or invalid" });
+  }
 
   const user = await User.findById(body.userId);
 
