@@ -3,10 +3,10 @@ const resourceMarkerRouter = require("express").Router();
 const ResourceMarker = require("../models/resourceMarker");
 const User = require("../models/user");
 
-const getTokenFrom = request => {
+const getTokenFrom = (request) => {
   const authorization = request.get("authorization");
   if (authorization && authorization.toLowerCase().startsWith("bearer")) {
-    return authorization.subString(7);
+    return authorization.substring(7);
   }
 
   return null;
@@ -19,7 +19,7 @@ resourceMarkerRouter.get("/", async (request, response, next) => {
       .populate("natureResource")
       .populate("addedByUser", { username: 1 });
     response.json(
-      resourceMarkers.map(resourceMarker => resourceMarker.toJSON())
+      resourceMarkers.map((resourceMarker) => resourceMarker.toJSON())
     );
   } catch (error) {
     next(error);
@@ -51,13 +51,13 @@ resourceMarkerRouter.post("/", async (request, response, next) => {
   const resourceMarker = new ResourceMarker({
     latLng: {
       latitude: body.latLng.latitude,
-      longitude: body.latLng.longitude
+      longitude: body.latLng.longitude,
     },
     locationName: body.locationName,
-    addedByUser: user._id,
+    addedByUser: user.id,
     date: new Date(),
     comment: body.comment,
-    natureResource: body.natureResource
+    natureResource: body.natureResource,
   });
 
   try {
@@ -77,11 +77,11 @@ resourceMarkerRouter.put("/:id", async (request, response, next) => {
   const resourceMarker = {
     latLng: {
       latitude: body.latLng.latitude,
-      longitude: body.latLng.longitude
+      longitude: body.latLng.longitude,
     },
     locationName: body.locationName,
     comment: body.comment,
-    natureResource: body.natureResource
+    natureResource: body.natureResource,
   };
 
   try {
@@ -89,7 +89,7 @@ resourceMarkerRouter.put("/:id", async (request, response, next) => {
       request.params.id,
       resourceMarker,
       {
-        new: true
+        new: true,
       }
     );
 

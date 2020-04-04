@@ -13,7 +13,6 @@
 
 # misc
 .DS_Store
-utils/config.js
 utils/mockResources.js
 .env.local
 .env.development.local

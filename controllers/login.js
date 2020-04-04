@@ -13,8 +13,6 @@ loginRouter.post("/", async (request, response, next) => {
         ? false
         : await bcrypt.compare(body.password, user.passwordHashed);
 
-    //const match = await bcrypt.compare(password, user.passwordHashed);
-
     if (!(user && correctPassword)) {
       return response
         .status(401)
@@ -23,11 +21,11 @@ loginRouter.post("/", async (request, response, next) => {
 
     const userForToken = {
       username: user.username,
-      id: user._id
+      id: user._id,
     };
 
     const token = jsonWebToken.sign(userForToken, process.env.SECRET);
-    response.status(200).send({ token, username: user.username });
+    response.status(200).send({ token, username: user.username, id: user._id });
   } catch (error) {
     next(error);
   }

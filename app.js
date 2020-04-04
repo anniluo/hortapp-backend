@@ -34,8 +34,8 @@ app.use(express.static("build"));
 app.use(express.json());
 app.use(middleware.requestLogger);
 
-app.use("/login", loginRouter);
-app.use("/signup", signupRouter);
+app.use("/api/login", loginRouter);
+app.use("/api/signup", signupRouter);
 app.use("/api/resourceMarkers", resourceMarkersRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/resourceMarkers", resourceMarkersRouter);
