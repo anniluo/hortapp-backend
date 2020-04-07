@@ -23,6 +23,7 @@ utils/mockResources.js
 src/assets/
 .env
 /test_requests
+Procfile
 
 npm-debug.log*
 yarn-debug.log*
