@@ -7,13 +7,10 @@ loginRouter.post("/", async (request, response, next) => {
   const body = request.body;
   try {
     const user = await User.findOne({ username: body.username });
-    console.log(body.username);
     const correctPassword =
       user === null
         ? false
         : await bcrypt.compare(body.password, user.passwordHashed);
-
-    //const match = await bcrypt.compare(password, user.passwordHashed);
 
     if (!(user && correctPassword)) {
       return response
@@ -23,11 +20,11 @@ loginRouter.post("/", async (request, response, next) => {
 
     const userForToken = {
       username: user.username,
-      id: user._id
+      id: user._id,
     };
 
-    const token = jsonWebToken.sign(userForToken, process.env.SECRET);
-    response.status(200).send({ token, username: user.username });
+    const token = jsonWebToken.sign(userForToken, process.env.TOKEN);
+    response.status(200).send({ token, username: user.username, id: user._id });
   } catch (error) {
     next(error);
   }

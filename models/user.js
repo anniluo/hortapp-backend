@@ -2,14 +2,13 @@ const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
 
 const userSchema = new mongoose.Schema({
-  // mongoose creates an _id property by default
   email: { type: String, required: true, unique: true },
   username: { type: String, required: true, unique: true },
   passwordHashed: String,
   date: { type: Date, default: Date.now },
   resourceMarkers: [
-    { type: mongoose.Schema.Types.ObjectId, ref: "ResourceMarker" }
-  ]
+    { type: mongoose.Schema.Types.ObjectId, ref: "ResourceMarker" },
+  ],
 });
 
 userSchema.plugin(uniqueValidator);
@@ -20,7 +19,7 @@ userSchema.set("toJSON", {
     delete returnedObject._id;
     delete returnedObject.__v;
     delete returnedObject.passwordHashed;
-  }
+  },
 });
 
 const User = mongoose.model("User", userSchema);

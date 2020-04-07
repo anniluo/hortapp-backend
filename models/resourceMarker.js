@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const NatureResourceSchema = require("./natureResource").natureResourceSchema;
 
 const resourceMarkerSchema = new mongoose.Schema({
   latLng: { type: { latitude: String, longitude: String } },
@@ -9,8 +8,8 @@ const resourceMarkerSchema = new mongoose.Schema({
   comment: { type: String, required: false },
   natureResource: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "NatureResource"
-  }
+    ref: "NatureResource",
+  },
 });
 
 resourceMarkerSchema.set("toJSON", {
@@ -18,7 +17,7 @@ resourceMarkerSchema.set("toJSON", {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
     delete returnedObject.__v;
-  }
+  },
 });
 
 const ResourceMarker = mongoose.model("ResourceMarker", resourceMarkerSchema);

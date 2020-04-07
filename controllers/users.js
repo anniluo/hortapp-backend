@@ -1,4 +1,3 @@
-const bcrypt = require("bcrypt");
 const userRouter = require("express").Router();
 const User = require("../models/user");
 
@@ -9,9 +8,9 @@ userRouter.get("/", async (request, response, next) => {
       natureResource: 1,
       latLng: 1,
       locationName: 1,
-      date: 1
+      date: 1,
     });
-    response.json(users.map(user => user.toJSON()));
+    response.json(users.map((user) => user.toJSON()));
   } catch (error) {
     next(error);
   }
@@ -33,12 +32,12 @@ userRouter.put("/:id", async (request, response, next) => {
 
   const user = {
     email: body.email,
-    username: body.username
+    username: body.username,
   };
 
   try {
     const updatedUser = await User.findByIdAndUpdate(request.params.id, user, {
-      new: true
+      new: true,
     });
     response.json(updatedUser.toJSON());
   } catch (error) {
