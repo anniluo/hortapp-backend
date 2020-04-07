@@ -17,7 +17,7 @@ const mongoose = require("mongoose");
 logger.info("connected to MongoDB", config.MONGODB_URI);
 
 mongoose
-  .connect(process.env.MONGODB_URI || config.MONGODB_URI, {
+  .connect(config.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
