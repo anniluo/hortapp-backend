@@ -24,7 +24,7 @@ loginRouter.post("/", async (request, response, next) => {
       id: user._id,
     };
 
-    const token = jsonWebToken.sign(userForToken, process.env.SECRET);
+    const token = jsonWebToken.sign(userForToken, process.env.TOKEN);
     response.status(200).send({ token, username: user.username, id: user._id });
   } catch (error) {
     next(error);

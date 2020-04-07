@@ -41,7 +41,7 @@ resourceMarkerRouter.post("/", async (request, response, next) => {
   const body = request.body;
   const token = getTokenFrom(request);
 
-  const decodedToken = jsonWebToken.verify(token, process.env.SECRET);
+  const decodedToken = jsonWebToken.verify(token, process.env.TOKEN);
   if (!token || !decodedToken.id) {
     return response.status(401).json({ error: "token missing or invalid" });
   }
