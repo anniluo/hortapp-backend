@@ -1,4 +1,4 @@
-const logger = require("./utils/logger");
+//const logger = require("./utils/logger");
 const config = require("./utils/config");
 const cors = require("cors");
 const helmet = require("helmet");
@@ -14,7 +14,7 @@ const signupRouter = require("./controllers/signup");
 const middleware = require("./utils/middleware");
 const mongoose = require("mongoose");
 
-logger.info("connected to MongoDB", config.MONGODB_URI);
+//logger.info("connected to MongoDB", config.MONGODB_URI);
 
 mongoose
   .connect(config.MONGODB_URI, {
@@ -22,10 +22,10 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    logger.info("connected to MongoDB");
+    //logger.info("connected to MongoDB");
   })
   .catch((error) => {
-    logger.error("error occured when connecting to MongoDB", error.message);
+    //logger.error("error occured when connecting to MongoDB", error.message);
   });
 
 app.use(cors());
