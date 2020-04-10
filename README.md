@@ -2,6 +2,46 @@
 
 Backend and API for [Hortapp](https://hortapp.herokuapp.com/)
 
+## API
+
+The current version of the API lives at https://hortapp.herokuapp.com/api/{endpoint}
+
+- Authentication
+
+| Endoint      |                 |
+| ------------ | :-------------: |
+| POST /login  |   Log in user   |
+| POST /signup | Create new user |
+
+- Users
+
+| Endoint            |                             |
+| ------------------ | :-------------------------: |
+| GET /users         |          Get users          |
+| GET /users/{id}    |  Get one user based on id   |
+| PUT /users/{id}    | Update one user based on id |
+| DELETE /users/{id} | Delete one user based on id |
+
+- natureResources
+
+| Endoint                      |                                       |
+| ---------------------------- | :-----------------------------------: |
+| GET /natureResources         |          Get natureResources          |
+| GET /natureResources/{id}    |  Get one natureResource based on id   |
+| POST /natureResources        |       Create new natureResource       |
+| PUT /natureResources/{id}    | Update one natureResource based on id |
+| DELETE /natureResources/{id} | Delete on natureResource based on id  |
+
+- resourceMarkers
+
+| Endoint                      |                                       |
+| ---------------------------- | :-----------------------------------: |
+| GET /resourceMarkers         |          Get resourceMarkers          |
+| GET /resourceMarkers/{id}    |  Get one resourceMarker based on id   |
+| POST /resourceMarkers        |       Create new resourceMarker       |
+| PUT /resourceMarkers/{id}    | Update one resourceMarker based on id |
+| DELETE /resourceMarkers/{id} | Delete one resourceMarker based on id |
+
 ## Getting Started
 
 - Install dependencies
